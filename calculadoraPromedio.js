@@ -1,77 +1,39 @@
-// grades
-document.getElementById('nota1').innerHTML = '0.0';
-document.getElementById('nota2').innerHTML = '0.0';
-document.getElementById('nota3').innerHTML = '0.0';
-// average
-document.getElementById('promedio').innerHTML = '';
-
-// enter the name
-function insertStudent() {
-    let student = prompt('Enter the student name:');
-    if (student != null) {
-        if (!isNaN(student)) { // validate if is not a string
-            alert('Please insert a valid name...')
-        } else {
-            document.getElementById('nameStudent').innerHTML = student.toLocaleUpperCase();
-        }
-    }
-}
-
-// enter the grades
-function insertGrades() {
-    const maxGrades = 3; // total of grades to insert
-    // firts validate the student name
-    let nameInput = document.getElementById('nameStudent');
-    if (nameInput.textContent == '') {
-        alert('Insert the student name');
+//ingresar nombre del estudiante
+//la instruccion PROMPT recibe un valor por teclado y siempre es un string o cadena
+let nombreEstudiante = prompt('Ingrese el nombre del estudiante:');
+console.log(nombreEstudiante);
+//ingresar nombre la materia
+let nombreMateria = prompt('Ingrese el nombre de la materia:');
+console.log(nombreMateria);
+//numero de notas
+const numeroNotas = 3;
+let sumatoriaNotas = 0;
+for (let contador = 1; contador <= numeroNotas; contador++) {
+    //ingresar nota
+    let notaEstudiante = prompt('Ingrese la nota ' + contador + ':');
+    //convertir a numero la cadena ingresada
+    let notaEstudianteNumero = Number(notaEstudiante);
+    if (isNaN(notaEstudianteNumero)) {
+        alert('Ingrese solo numeros...');
+        break;
     } else {
-        // add the 3 grades
-        for (let i = 1; i <= maxGrades; i++) {
-            let grade = prompt('Enter the grade' + i + ':');
-            if (grade == '') {
-                alert('Please insert the grade...');
-                clean();
-                return;
-            } else {
-                if (isNaN(grade)) {// validate if is not a number
-                    alert('Please insert a valid grade...');
-                    clean();
-                    return;
-                }
-                if (grade >= 0 && grade <= 10) {
-                    document.getElementById('grade' + i).innerHTML = Number(grade).toFixed(2); // validate the decimal to show
-                } else {
-                    alert('Please insert grades between 0 and 10');
-                    clean();
-                    return;
-                }
-            }
-        }
-        // calculate the average
-        let grade1 = document.getElementById('grade1');
-        let grade2 = document.getElementById('grade2');
-        let grade3 = document.getElementById('grade3');
-        if (grade1.textContent != '' && grade2.textContent != '' && grade3.textContent != '') { // validate if exist all the grades
-            let average = (Number(grade1.textContent) + Number(grade2.textContent) + Number(grade3.textContent)) / maxGrades;
-            let message = '';
-            if (average >= 7) {
-                message = nameInput.textContent.toLocaleUpperCase() +
-                    ', congratulations! You have passed with an average of ' + average.toFixed(2) + '.';
-            } else {
-                message = nameInput.textContent.toLocaleUpperCase() +
-                    ', thank you for your effort. See you soon in class. The average obtained is ' + average.toFixed(2) + '.';
-            }
-            document.getElementById('average').innerHTML = message;
+        if (notaEstudianteNumero >= 0 && notaEstudianteNumero <= 10) {
+            sumatoriaNotas = sumatoriaNotas + notaEstudianteNumero;
+        } else {
+            alert('Ingrese notas en un rango de 0 a 10...');
+            break;
         }
     }
 }
-
-// clean de data
-function clean() {
-    // grades
-    document.getElementById('grade1').innerHTML = '0.0';
-    document.getElementById('grade2').innerHTML = '0.0';
-    document.getElementById('grade3').innerHTML = '0.0';
-    // average
-    document.getElementById('average').innerHTML = '';
+console.log(sumatoriaNotas);
+//calcular promedio
+let promedioEstudiante = sumatoriaNotas / numeroNotas;
+console.log(promedioEstudiante);
+//variable para mostrar el mensaje del promedio
+let mensaje = '';
+if (promedioEstudiante < 7) {
+    mensaje = nombreEstudiante + ', gracias por tu esfuerzo. Nos vemos pronto en clase. El promedio obtenido es ' + promedioEstudiante.toFixed(2);
+} else {
+    mensaje = nombreEstudiante + ', ¡felicidades! Has aprobado con un promedio de ' + promedioEstudiante.toFixed(2);
 }
+alert(mensaje);
